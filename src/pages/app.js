@@ -5,15 +5,11 @@ import { IdentityContext } from "../../identity-context";
 import { Container, Flex, Heading, Button, NavLink } from "theme-ui";
 
 let Dash = (props) => {
-  const { user } = useContext(IdentityContext);
-
-  return <div>Dash hasUser: {user && user.user_metadata.full_name}</div>;
-};
-
-let DashLoggedOut = (props) => {
   const { user, identity: netlifyIdentity } = useContext(IdentityContext);
+
+  // return <div>Dash hasUser: {user && user.user_metadata.full_name}</div>;
   return (
-    <Flex>
+    <Container>
       <Flex as="nav">
         <NavLink as={Link} to="/" p={2}>
           Home
@@ -22,12 +18,25 @@ let DashLoggedOut = (props) => {
           Dashboard
         </NavLink>
         {user && (
-          <NavLink href="#!" p={2}>
-            {user.user_metadata.full_name}
+          <NavLink
+            href="#!"
+            p={2}
+            onClick={() => {
+              netlifyIdentity.logout();
+            }}
+          >
+            Log out {user.user_metadata.full_name}
           </NavLink>
         )}
       </Flex>
+    </Container>
+  );
+};
 
+let DashLoggedOut = (props) => {
+  const { user, identity: netlifyIdentity } = useContext(IdentityContext);
+  return (
+    <Container>
       <Flex sx={{ flexDirection: "column", padding: 3 }}>
         <Heading as="h1">Get Shit Done</Heading>
         <Button
@@ -38,16 +47,8 @@ let DashLoggedOut = (props) => {
         >
           Log In
         </Button>
-        <Button
-          sx={{ marginTop: 2 }}
-          onClick={() => {
-            console.log(netlifyIdentity.currentUser());
-          }}
-        >
-          Log User
-        </Button>
       </Flex>
-    </Flex>
+    </Container>
   );
 };
 
