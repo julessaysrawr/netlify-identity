@@ -1,5 +1,5 @@
 const React = require("react");
-const { useState, useEffect} = require("react");
+const { useState, useEffect } = require("react");
 const netlifyIdentity = require("netlify-identity-widget");
 
 const IdentityContext = React.createContext({});
@@ -21,14 +21,15 @@ const IdentityProvider = (props) => {
     netlifyIdentity.close();
     setUser(user);
   });
-  netlifyIdentity.on("logout", () => setUser());
+  netlifyIdentity.on("logout", () => {
+    netlifyIdentity.close();
+    setUser();
+  });
   return (
-    <IdentityContext.Provider
-      value={{ identity: netlifyIdentity, user }}
-    >
+    <IdentityContext.Provider value={{ identity: netlifyIdentity, user }}>
       {props.children}
     </IdentityContext.Provider>
   );
 };
 
-exports.Provider = IdentityProvider
+exports.Provider = IdentityProvider;
