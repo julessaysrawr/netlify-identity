@@ -27,7 +27,7 @@ const typeDefs = gql`
 // Provide resolver funtions for your schema fields
 const resolvers = {
   Query: {
-    todos: (parent, args, { user }) => {
+    todos: async (parent, args, { user }) => {
       if (!user) {
         return [];
       } else {
@@ -67,7 +67,7 @@ const resolvers = {
         id: results.ref.id
       };
     },
-    updateTodoDone: (_, { id }) => {
+    updateTodoDone: async (_, { id }) => {
       // todos[id].done = true;
       // return todos[id];
       if(!user) {
