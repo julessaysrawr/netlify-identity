@@ -1,0 +1,3 @@
+export FAUNA=
+
+# run `echo ${FAUNA}` in terminal to test
