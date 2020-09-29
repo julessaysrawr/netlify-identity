@@ -65,4 +65,9 @@ const server = new ApolloServer({
 
 // this is an aws lambda compatable signature, because netlify functions are build
 // on aws lambda under the hood
-exports.handler = server.createHandler();
+exports.handler = server.createHandler({
+  cors: {
+    origin: "*",
+    credentials: true
+  }
+});
