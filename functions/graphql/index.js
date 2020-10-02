@@ -68,7 +68,7 @@ const resolvers = {
         id: results.ref.id,
       };
     },
-    updateTodoDone: async (_, { id }) => {
+    updateTodoDone: async (_, { id }, { user }) => {
       // todos[id].done = true;
       // return todos[id];
       if (!user) {
