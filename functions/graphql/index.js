@@ -31,16 +31,16 @@ const resolvers = {
       if (!user) {
         return [];
       } else {
-        await client.query(
-            q.Paginate(q.Match(q.Index("todos_by_user"), user))
+        const results = await client.query(
+          q.Paginate(q.Match(q.Index("todos_by_user"), user))
         );
-        return results.data.map(([ref, text, done]) => {
-          id: ref_id,
-          text,
+        return results.data.map(([ref, text, done]) => ({
+          id: ref.id, 
+          text, 
           done
-        });
+        }));
         // return Object.values(todos);
-      }  // error handling goes here
+      } // error handling goes here
     },
   },
   Mutation: {
@@ -51,36 +51,39 @@ const resolvers = {
     //   return todos[id];
     // },
     addTodo: async (_, { text }, { user }) => {
-      if(!user) {
+      if (!user) {
         throw new Error("Must be authenticated to insert todos");
       }
-      const results = await client.query(q.Create(q.Collection("todos"), {
-        data: {
-          text,
-          done: false,
-          owner: user
-          }
+      const results = await client.query(
+        q.Create(q.Collection("todos"), {
+          data: {
+            text,
+            done: false,
+            owner: user,
+          },
         })
-      )
+      );
       return {
         ...results.data,
-        id: results.ref.id
+        id: results.ref.id,
       };
     },
     updateTodoDone: async (_, { id }) => {
       // todos[id].done = true;
       // return todos[id];
-      if(!user) {
+      if (!user) {
         throw new Error("Must be authenticated to insert todos");
       }
-      const results = await client.query(q.Update(q.Ref(q.Collection("todos"), id), {
-        data: {
-          done: true
-        }
-      }))
+      const results = await client.query(
+        q.Update(q.Ref(q.Collection("todos"), id), {
+          data: {
+            done: true,
+          },
+        })
+      );
       return {
         ...results.data,
-        id: results.ref.id
+        id: results.ref.id,
       };
     },
   },
