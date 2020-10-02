@@ -72,7 +72,7 @@ const resolvers = {
       // todos[id].done = true;
       // return todos[id];
       if (!user) {
-        throw new Error("Must be authenticated to insert todos");
+        throw new Error("Must be authenticated to update todos");
       }
       const results = await client.query(
         q.Update(q.Ref(q.Collection("todos"), id), {
