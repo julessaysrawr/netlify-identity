@@ -8,6 +8,8 @@
 
 [FaunaDB](https://fauna.com/)
 
+[Playground](https://compassionate-hypatia-ee4969.netlify.app/.netlify/functions/graphql)
+
 Example graphql queries
 ```
 {
