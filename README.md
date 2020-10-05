@@ -2,8 +2,13 @@
 
 [Tutorial](https://egghead.io/playlists/building-a-serverless-jamstack-todo-app-with-netlify-gatsby-graphql-and-faunadb-53bb)
 
+[Styling by theme-ui](https://theme-ui.com/home)
 
-Example queries
+[source code](https://github.com/ChristopherBiscardi/serverless-todo-netlify-fauna-egghead)
+
+[FaunaDB](https://fauna.com/)
+
+Example graphql queries
 ```
 {
   todos {

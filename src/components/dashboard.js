@@ -22,19 +22,19 @@ const ADD_TODO = gql`
   }
 `;
 
-const GET_TODOS = gql`
-  query GetTodos {
-    todos {
-      id
+const UPDATE_TODO_DONE = gql`
+  mutation UpdateTodoDone($id: ID!) {
+    updateTodoDone(id: $id) {
       text
       done
     }
   }
 `;
 
-const UPDATE_TODO_DONE = gql`
-  mutation UpdateTodoDone($id: ID!) {
-    updateTodoDone(id: $id) {
+const GET_TODOS = gql`
+  query GetTodos {
+    todos {
+      id
       text
       done
     }
@@ -71,8 +71,8 @@ export default () => {
   // return <div>Dash hasUser: {user && user.user_metadata.full_name}</div>;
   return (
     <Container>
-      {console.log('data: ', data)}
-      
+      {/* {console.log('user: ', user)} */}
+
       <Flex as="nav">
         <NavLink as={Link} to="/" p={2}>
           Home
@@ -94,9 +94,9 @@ export default () => {
       </Flex>
       <Flex
         as="form"
-        onSubmit={async e => {
+        onSubmit={async (e) => {
           e.preventDefault();
-          addTodo({ variables: { text: inputRef.current.value } });
+          await addTodo({ variables: { text: inputRef.current.value } });
           // dispatch({ type: "addTodo", payload: inputRef.current.value });
           // setTodos([{ done: false, value: inputRef.current.value }, ...todos]);
           // alert(inputRef.current.value);
@@ -114,6 +114,8 @@ export default () => {
       <Flex sx={{ flexDirection: "column" }}>
         {loading ? <div>loading...</div> : null}
         {error ? <div>{error.message}</div> : null}
+        {console.log("error: ", error)}
+        {console.log("data: ", data)}
         {!loading && !error && (
           <ul sx={{ listStyleType: "none" }}>
             {/* {todos.map((todo, i) => ( */}
@@ -122,12 +124,14 @@ export default () => {
               <Flex
                 as="li"
                 key={todo.id}
-                onClick={async e => {
+                onClick={async () => {
                   // dispatch({
                   //   type: "toggleTodoDone",
                   //   payload: i,
                   // });
+                  console.log("updateTodoDone");
                   await updateTodoDone({ variables: { id: todo.id } });
+                  console.log("refetching");
                   await refetch();
                 }}
               >
